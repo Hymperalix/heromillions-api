@@ -1,0 +1,104 @@
+﻿html {
+    background-color: peachpuff !important;
+}
+
+body {
+    background-color: inherit !important;
+	/* background-color: red; */
+}
+
+.title {
+    font-size: 77px;
+    color: blue;
+    font-family: 'Roboto', sans-serif;
+}
+
+.heading1 {
+	font-size: 35px;
+    color: blue;
+    font-family: 'Roboto', sans-serif;
+}
+
+.heading2 {
+	font-size: 20px;
+    color: blue;
+    font-family: 'Roboto', sans-serif;
+}
+
+.keys_text_div {
+	/* width: 100%; */
+    /* height: 300; */
+}
+
+.keys_text {
+	width: 100%;
+    /* height: 100%; */
+    height: 300;
+	background-color: white;
+	text-align: left;
+	border-style: solid;
+    border-width: 1px;
+	padding: 5;
+	word-wrap: break-word;
+	overflow: scroll;
+}
+
+.copy_button {
+	background: red;
+}
+
+/* ul, #Prizes_Tree_View { */
+  /* list-style-type: none; */
+/* } */
+
+/* ul, #myUL { */
+  /* list-style-type: none; */
+/* } */
+
+/* #myUL { */
+  /* margin: 0; */
+  /* padding: 0; */
+/* } */
+
+/* .tree_view_parent { */
+  /* cursor: pointer; */
+  /* -webkit-user-select: none; /* Safari 3.1+ */ */
+  /* -moz-user-select: none; /* Firefox 2+ */ */
+  /* -ms-user-select: none; /* IE 10+ */ */
+  /* user-select: none; */
+/* } */
+
+/* .tree_view_parent::before { */
+  /* content: "\25B6"; */
+  /* color: black; */
+  /* display: inline-block; */
+  /* margin-right: 6px; */
+/* } */
+
+/* .tree_view_parent-down::before { */
+  /* -ms-transform: rotate(90deg); /* IE 9 */ */
+  /* -webkit-transform: rotate(90deg); /* Safari */' */
+  /* transform: rotate(90deg);   */
+/* } */
+
+/* .nested { */
+  /* display: none; */
+/* } */
+
+/* .active { */
+  /* display: block; */
+/* } */
+
+.TTT {
+    text-align: center;
+    background-color: black;
+    font-size: 200%;
+    cursor: pointer;
+    margin-left: 0px;
+    padding-left: 10px; /* Text Padding */
+    padding-right: 10px; /* Text Padding */
+    /*display: table-cell;*/    /*  */
+    position: absolute;
+    width: 50px;
+    color: yellow;
+}
