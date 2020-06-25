@@ -1,5 +1,5 @@
 {
-	"name": "euromillions",
+	"name": "heromillions",
 	"version": "0.0.1",
 	"scripts": {
 		"start": "node server.js",
@@ -9,6 +9,7 @@
 		"convert-csv-to-json": "0.0.13",
 		"cors": "^2.8.5",
 		"express": "^4.16.4",
+		"moment": "^2.24.0",
 		"node-stream-zip": "^1.7.0"
 	}
 }

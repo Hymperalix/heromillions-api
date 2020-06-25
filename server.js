@@ -1,11 +1,12 @@
-var express = require('express');
-var app = express(); 
+const express = require('express');
+const app = express(); 
 
-var cors = require('cors')
-let csvToJson = require('convert-csv-to-json');
+const cors = require('cors')
+const csvToJson = require('convert-csv-to-json');
 const StreamZip = require('node-stream-zip');
-var http = require('https');
-var fs = require('fs');
+const http = require('https');
+const fs = require('fs');
+const moment = require('moment');
 
 app.use(cors())
 
@@ -25,22 +26,55 @@ var download = function(url, dest, cb) {
   });
 };
 
-app.get('/results', function (req, res) {
-  let output = [];
+var csv2json = function(file) {
+    let json = csvToJson.getJsonFromCsv(file);
+    let array = [];
+    json.forEach(j => {
+        let draw = j.annee_numero_de_tirage.substring(j.annee_numero_de_tirage.length - 3);
+        let week_day = j.jour_de_tirage.toLower().trim();
+        if (day === 'mardi') {
+            week_day = 'Tuesday';
+        } else if (day === 'vendredi' || day === 've') {
+            week_day = 'Friday';
+        }
+        let date = j.date_de_tirage;
+        if (date.indexOf('/') === -1) {
+            date = moment(date, 'YYYYMMDD').format('YYYY/MM/DD');
+        } else {
+            date = moment(date, 'DD/MM/YYYY').format('YYYY/MM/DD');
+        }
+        let id = moment(date, 'YYYY/MM/DD').format('YYYY') + draw
+        let numbers = [j.boule_1, j.boule_2, j.boule_3, j.boule_4, j.boule_5];
+        let stars = [j.etoile_1, j.etoile_2];
 
-  download('https://www.fdj.fr/generated/game/euromillions/euromillions_4.zip', './euromillions_4.zip', function() {
-    const zip = new StreamZip({
-      file: 'euromillions_4.zip',
-      storeEntries: true
+        array.push({ id, draw, week_day, date, numbers, stars });
     });
-  
-    zip.on('ready', () => {
-      zip.extract('euromillions_4.csv', './euromillions_4.csv', err => {
-        console.log(err ? 'Extract error' : 'Extracted');
-        zip.close(function() {
-          console.log('Converting to JSON...');
 
-          let json = csvToJson.getJsonFromCsv("euromillions_4.csv");
+    return array;
+};
+
+app.get('/results', function (req, res) {
+    let output = [];
+    let csv_list = ['euromillions', 'euromillions_2', 'euromillions_3', 'euromillions_4', 'euromillions_201902', 'euromillions_202002']
+
+  // download('https://www.fdj.fr/generated/game/euromillions/euromillions_4.zip', './euromillions_4.zip', function() {
+    download('https://www.fdj.fr/generated/game/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
+        const zip = new StreamZip({
+            file: csv_list[csv_list.length - 1] +'.zip',
+            storeEntries: true
+        });
+  
+        zip.on('ready', () => {
+            zip.extract(csv_list[csv_list.length - 1] + '.csv', './' + csv_list[csv_list.length - 1]+'.csv', err => {
+                console.log(err ? 'Extract error' : 'Extracted');
+                zip.close(function() {
+                    console.log('Converting to JSON...');
+
+                    csv_list.forEach(csv => {
+                        output.concat(csv2json(csv))
+                    });
+
+/*          let json = csvToJson.getJsonFromCsv("euromillions_4.csv");
           let j = [];
           for (let i=0; i<(json.length); i++) {
             j[i] = {};
@@ -116,7 +150,7 @@ app.get('/results', function (req, res) {
             output.push(j[i]);
           }
 
-          json = csvToJson.getJsonFromCsv("euromillions.csv");
+          json = csvToJson.getJsonFromCsv("euromillions_1.csv");
           j = [];
           for (let i=0; i<(json.length); i++) {
             j[i] = {};
@@ -139,13 +173,13 @@ app.get('/results', function (req, res) {
             j[i].draw = (json[i].annee_numero_de_tirage).substr(4);
 
             output.push(j[i]);
-          }
+          }*/
 
-          res.send(output)
+                    res.send(output)
+                });
+            });
         });
-      });
     });
-  });
 });
 
 app.listen(process.env.PORT || 3000);
