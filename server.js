@@ -57,7 +57,6 @@ app.get('/results', function (req, res) {
     let output = [];
     let csv_list = ['euromillions', 'euromillions_2', 'euromillions_3', 'euromillions_4', 'euromillions_201902', 'euromillions_202002']
 
-  // download('https://www.fdj.fr/generated/game/euromillions/euromillions_4.zip', './euromillions_4.zip', function() {
     download('https://www.fdj.fr/generated/game/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
         const zip = new StreamZip({
             file: csv_list[csv_list.length - 1] +'.zip',
@@ -73,108 +72,6 @@ app.get('/results', function (req, res) {
                     csv_list.forEach(csv => {
                         output.concat(csv2json(csv))
                     });
-
-/*          let json = csvToJson.getJsonFromCsv("euromillions_4.csv");
-          let j = [];
-          for (let i=0; i<(json.length); i++) {
-            j[i] = {};
-          }
-          for(let i=(json.length-1); i>=0; i--){
-
-            if (json[i].jour_de_tirage === 'MARDI   ') {
-              j[i].day = 'Tuesday';
-            }
-            else if (json[i].jour_de_tirage === 'VENDREDI' || json[i].jour_de_tirage === 'VE') {
-              j[i].day = 'Friday';
-            }
-            j[i].date = json[i].date_de_tirage;
-            j[i].ball_1 = json[i].boule_1;
-            j[i].ball_2 = json[i].boule_2;
-            j[i].ball_3 = json[i].boule_3;
-            j[i].ball_4 = json[i].boule_4;
-            j[i].ball_5 = json[i].boule_5;
-            j[i].star_1 = json[i].etoile_1;
-            j[i].star_2 = json[i].etoile_2;
-            j[i].draw = (json[i].annee_numero_de_tirage).substr(4);
-
-            output.push(j[i]);
-          }
-
-          json = csvToJson.getJsonFromCsv("euromillions_3.csv");
-          j = [];
-          for (let i=0; i<(json.length); i++) {
-            j[i] = {};
-          }
-          for(let i=(json.length-1); i>=0; i--){
-            if (json[i].jour_de_tirage === 'MARDI   ') {
-              j[i].day = 'Tuesday';
-            }
-            else if (json[i].jour_de_tirage === 'VENDREDI' || json[i].jour_de_tirage === 'VE') {
-              j[i].day = 'Friday';
-            }
-            j[i].date = json[i].date_de_tirage;
-            j[i].ball_1 = json[i].boule_1;
-            j[i].ball_2 = json[i].boule_2;
-            j[i].ball_3 = json[i].boule_3;
-            j[i].ball_4 = json[i].boule_4;
-            j[i].ball_5 = json[i].boule_5;
-            j[i].star_1 = json[i].etoile_1;
-            j[i].star_2 = json[i].etoile_2;
-            j[i].draw = (json[i].annee_numero_de_tirage).substr(4);
-
-            output.push(j[i]);
-          }
-
-          json = csvToJson.getJsonFromCsv("euromillions_2.csv");
-          j = [];
-          for (let i=0; i<(json.length); i++) {
-            j[i] = {};
-          }
-          for(let i=(json.length-1); i>=0; i--){
-            if (json[i].jour_de_tirage === 'MARDI   ') {
-              j[i].day = 'Tuesday';
-            }
-            else if (json[i].jour_de_tirage === 'VENDREDI' || json[i].jour_de_tirage === 'VE') {
-              j[i].day = 'Friday';
-            }
-            j[i].date = json[i].date_de_tirage;
-            j[i].ball_1 = json[i].boule_1;
-            j[i].ball_2 = json[i].boule_2;
-            j[i].ball_3 = json[i].boule_3;
-            j[i].ball_4 = json[i].boule_4;
-            j[i].ball_5 = json[i].boule_5;
-            j[i].star_1 = json[i].etoile_1;
-            j[i].star_2 = json[i].etoile_2;
-            j[i].draw = (json[i].annee_numero_de_tirage).substr(4);
-
-            output.push(j[i]);
-          }
-
-          json = csvToJson.getJsonFromCsv("euromillions_1.csv");
-          j = [];
-          for (let i=0; i<(json.length); i++) {
-            j[i] = {};
-          }
-          for(let i=(json.length-1); i>=0; i--){
-            if (json[i].jour_de_tirage === 'MARDI   ') {
-              j[i].day = 'Tuesday';
-            }
-            else if (json[i].jour_de_tirage === 'VENDREDI' || json[i].jour_de_tirage === 'VE') {
-              j[i].day = 'Friday';
-            }
-            j[i].date = json[i].date_de_tirage;
-            j[i].ball_1 = json[i].boule_1;
-            j[i].ball_2 = json[i].boule_2;
-            j[i].ball_3 = json[i].boule_3;
-            j[i].ball_4 = json[i].boule_4;
-            j[i].ball_5 = json[i].boule_5;
-            j[i].star_1 = json[i].etoile_1;
-            j[i].star_2 = json[i].etoile_2;
-            j[i].draw = (json[i].annee_numero_de_tirage).substr(4);
-
-            output.push(j[i]);
-          }*/
-
                     res.send(output)
                 });
             });
