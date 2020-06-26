@@ -57,7 +57,7 @@ app.get('/results', function (req, res) {
     let output = [];
     let csv_list = ['euromillions', 'euromillions_2', 'euromillions_3', 'euromillions_4', 'euromillions_201902', 'euromillions_202002']
 
-    download('https://www.fdj.fr/generated/game/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
+/*    download('https://media.fdj.fr/static/csv/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
         const zip = new StreamZip({
             file: csv_list[csv_list.length - 1] +'.zip',
             storeEntries: true
@@ -76,7 +76,8 @@ app.get('/results', function (req, res) {
                 });
             });
         });
-    });
-});
+    });*/
 
+    res.send(csv_list)
+});
 app.listen(process.env.PORT || 3000);
