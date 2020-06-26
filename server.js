@@ -46,8 +46,8 @@ var csv2json = function (file) {
             date = moment(date, 'DD/MM/YYYY').format('YYYY/MM/DD');
         }
         let id = moment(date, 'YYYY/MM/DD').format('YYYY') + draw
-        let numbers = [j.boule_1, j.boule_2, j.boule_3, j.boule_4, j.boule_5];
-        let stars = [j.etoile_1, j.etoile_2];
+        let numbers = [parseInt(j.boule_1), parseInt(j.boule_2), parseInt(j.boule_3), parseInt(j.boule_4), parseInt(j.boule_5)];
+        let stars = [parseInt(j.etoile_1), parseInt(j.etoile_2)];
 
         array.push({ id, draw, week_day, date, numbers, stars });
     });
@@ -73,6 +73,7 @@ app.get('/results', function (req, res) {
                     for (let i = 0; i < csv_list.length; i++) {
                         output = output.concat(csv2json(csv_list[i] + '.csv'));
                     }
+                    output.sort((a,b) => b.id - a.id)
                     console.log('length')
                     console.log(output.length)
                     res.send(output);
