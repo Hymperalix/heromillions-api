@@ -75,12 +75,12 @@ app.get('/results', function (req, res) {
                     csv_list.forEach(csv => {
                         output.concat(csv2json(csv))
                     });
-                    res.send(output)
+                    //res.send(output)
                 });
             });
         });
     });
-
-    res.send(csv_list)
+    res.send(output)
+    //res.send(csv_list)
 });
 app.listen(process.env.PORT || 3000);
