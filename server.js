@@ -26,15 +26,17 @@ var download = function(url, dest, cb) {
   });
 };
 
-var csv2json = function(file) {
+var csv2json = function (file) {
     let json = csvToJson.getJsonFromCsv(file);
     let array = [];
+
     json.forEach(j => {
+
         let draw = j.annee_numero_de_tirage.substring(j.annee_numero_de_tirage.length - 3);
-        let week_day = j.jour_de_tirage.toLower().trim();
-        if (day === 'mardi') {
+        let week_day = j.jour_de_tirage.toLowerCase().trim();
+        if (week_day === 'mardi') {
             week_day = 'Tuesday';
-        } else if (day === 'vendredi' || day === 've') {
+        } else if (week_day === 'vendredi' || week_day === 've') {
             week_day = 'Friday';
         }
         let date = j.date_de_tirage;
@@ -57,30 +59,26 @@ app.get('/results', function (req, res) {
     let output = [];
     let csv_list = ['euromillions', 'euromillions_2', 'euromillions_3', 'euromillions_4', 'euromillions_201902', 'euromillions_202002']
 
-    download('https://media.fdj.fr/static/csv/euromillions/euromillions_202002.zip', './euromillions_202002.zip', function() {
-    //download('https://media.fdj.fr/static/csv/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
+    download('https://media.fdj.fr/static/csv/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
         const zip = new StreamZip({
-            file: 'euromillions_202002.zip',
-            //file: csv_list[csv_list.length - 1] +'.zip',
+            file: csv_list[csv_list.length - 1] +'.zip',
             storeEntries: true
         });
   
         zip.on('ready', () => {
-            zip.extract('euromillions_202002.csv', './euromillions_202002.csv', err => {
-            //zip.extract(csv_list[csv_list.length - 1] + '.csv', './' + csv_list[csv_list.length - 1]+'.csv', err => {
+            zip.extract(csv_list[csv_list.length - 1] + '.csv', './' + csv_list[csv_list.length - 1]+'.csv', err => {
                 console.log(err ? 'Extract error' : 'Extracted');
                 zip.close(function() {
                     console.log('Converting to JSON...');
-
-                    csv_list.forEach(csv => {
-                        output.concat(csv2json(csv))
-                    });
-                    //res.send(output)
+                    for (let i = 0; i < csv_list.length; i++) {
+                        output = output.concat(csv2json(csv_list[i] + '.csv'));
+                    }
+                    console.log('length')
+                    console.log(output.length)
+                    res.send(output);
                 });
             });
         });
     });
-    res.send(output)
-    //res.send(csv_list)
 });
 app.listen(process.env.PORT || 3000);
