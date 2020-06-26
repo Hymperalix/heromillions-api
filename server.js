@@ -57,14 +57,17 @@ app.get('/results', function (req, res) {
     let output = [];
     let csv_list = ['euromillions', 'euromillions_2', 'euromillions_3', 'euromillions_4', 'euromillions_201902', 'euromillions_202002']
 
-/*    download('https://media.fdj.fr/static/csv/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
+    download('https://media.fdj.fr/static/csv/euromillions/euromillions_202002.zip', './euromillions_202002.zip', function() {
+    //download('https://media.fdj.fr/static/csv/euromillions/' + csv_list[csv_list.length - 1] + '.zip', './' + csv_list[csv_list.length - 1] + '.zip', function() {
         const zip = new StreamZip({
-            file: csv_list[csv_list.length - 1] +'.zip',
+            file: 'euromillions_202002.zip',
+            //file: csv_list[csv_list.length - 1] +'.zip',
             storeEntries: true
         });
   
         zip.on('ready', () => {
-            zip.extract(csv_list[csv_list.length - 1] + '.csv', './' + csv_list[csv_list.length - 1]+'.csv', err => {
+            zip.extract('euromillions_202002.csv', './euromillions_202002.csv', err => {
+            //zip.extract(csv_list[csv_list.length - 1] + '.csv', './' + csv_list[csv_list.length - 1]+'.csv', err => {
                 console.log(err ? 'Extract error' : 'Extracted');
                 zip.close(function() {
                     console.log('Converting to JSON...');
@@ -76,7 +79,7 @@ app.get('/results', function (req, res) {
                 });
             });
         });
-    });*/
+    });
 
     res.send(csv_list)
 });
